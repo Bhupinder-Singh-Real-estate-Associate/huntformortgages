@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HFM Mortgages — Home Financing Made Simple</title>
+  <meta name="description" content="Trusted mortgage advice, quick pre-approvals, and competitive rates. Get personalized options for your home purchase or refinance today." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;            /* dark header/hero background */
+      --ink:#0e1428;           /* body text color */
+      --muted:#5b667a;         /* secondary text */
+      --card:#ffffff;          /* card background */
+      --soft:#f3f5f9;          /* page background */
+      --brand:#2f6df6;         /* primary brand color */
+      --brand-ink:#0a2a8b;     /* darker brand */
+      --accent:#00c2a8;        /* accent color */
+      --ring:rgba(47,109,246,.25);
+      --radius:18px;
+      --shadow:0 10px 30px rgba(14,20,40,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--soft);
+      line-height:1.6;
+    }
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Layout helpers */
+    .container{width:min(1200px, 92%);margin-inline:auto}
+    .grid{display:grid;gap:24px}
+
+    /* Topbar */
+    header{
+      position:sticky;top:0;z-index:40;
+      background:rgba(11,16,32,.75);
+      backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;color:#e7ecff}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand-logo{
+      width:36px;height:36px;border-radius:10px;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      display:grid;place-items:center;color:white;font-weight:800
+    }
+    .nav a{color:#e7ecff;opacity:.9}
+    .nav a:hover{opacity:1}
+    .nav-links{display:flex;gap:22px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid transparent;font-weight:600}
+    .btn-primary{background:var(--brand);color:white}
+    .btn-primary:hover{filter:brightness(.95)}
+    .btn-ghost{background:transparent;color:#e7ecff;border-color:rgba(255,255,255,.18)}
+
+    /* Hero */
+    .hero{background:radial-gradient(1200px 600px at 70% -20%, rgba(47,109,246,.35), transparent 60%),
+           radial-gradient(900px 500px at 10% -30%, rgba(0,194,168,.3), transparent 50%),
+           var(--bg);
+      color:white;}
+    .hero-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;padding:64px 0 48px}
+    .hero h1{font-size:clamp(28px,4.2vw,46px);line-height:1.15;margin:0 0 10px}
+    .hero p{color:#c9d3ff;margin:0 0 24px}
+    .hero-card{
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+      border-radius:var(--radius);padding:22px
+    }
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);color:#dfe6ff;border:1px solid rgba(255,255,255,.12);font-weight:600}
+    .check{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,var(--accent),#2ef0d7);display:grid;place-items:center;color:#042; font-size:14px}
+
+    .quick-form{display:grid;gap:12px;margin-top:10px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-weight:600;color:#e9edff}
+    .field input,.field select{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:#f3f6ff}
+    .field input::placeholder{color:#c9d3ff}
+
+    /* Trust bar */
+    .trust{padding:22px 0;color:#6d7796}
+    .trust .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center}
+    .trust .badge{background:white;border:1px solid #eaedf5;border-radius:12px;padding:10px 14px;box-shadow:var(--shadow)}
+
+    /* Rate Highlights */
+    .section{padding:56px 0}
+    .section h2{font-size:clamp(22px,3.2vw,32px);margin:0 0 8px}
+    .section p.lead{color:var(--muted);margin:0 0 22px}
+
+    .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{grid-column:span 4;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #eef1f6; padding:18px}
+    .card h3{margin:0 0 6px;font-size:18px}
+    .rate{font-size:32px;font-weight:800}
+    .sub{color:var(--muted);font-size:14px}
+
+    /* Calculator */
+    .calc{grid-column:span 6}
+    .calc .grid{grid-template-columns:1fr 1fr}
+    .calc-output{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+    .metric{background:var(--soft);border:1px solid #e9edf5;border-radius:12px;padding:14px}
+    .metric .val{font-weight:800;font-size:22px}
+
+    /* Services */
+    .service{display:flex;gap:14px;align-items:flex-start}
+    .icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;color:white;font-weight:800}
+
+    /* Testimonials */
+    .testimonial{background:white;border:1px solid #eef1f6;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .stars{letter-spacing:2px}
+
+    /* FAQ */
+    details{background:white;border:1px solid #eef1f6;border-radius:12px;padding:14px}
+    summary{cursor:pointer;font-weight:700}
+
+    /* Footer */
+    footer{background:#0f1426;color:#c9d3ff}
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px;padding:42px 0}
+    .copyright{border-top:1px solid rgba(255,255,255,.1);padding:18px 0;color:#9fb0ff}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero-wrap{grid-template-columns:1fr}
+      .cards .card{grid-column:span 12}
+      .calc{grid-column:span 12}
+      .foot-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 600px){
+      .nav-links{display:none}
+      .foot-grid{grid-template-columns:1fr}
+    }
+
+    /* Focus ring */
+    :where(button,input,select,summary,a):focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden>🏠</div>
+        <span>HFM Mortgages</span>
+      </div>
+      <nav class="nav-links" aria-label="primary">
+        <a href="#rates">Rates</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#services">Solutions</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-ghost" href="#prequal">Get Pre‑Qualified</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <span class="pill"><span class="check">✔</span> Fast pre‑approvals. No hard credit check to start.</span>
+        <h1>Home financing made simple.</h1>
+        <p>Compare competitive options from top lenders. Personalized advice for purchases, renewals, and refinancing—without the pressure.</p>
+        <div class="hero-card">
+          <form class="quick-form" id="prequal">
+            <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+              <div class="field">
+                <label for="purpose">Loan purpose</label>
+                <select id="purpose" required>
+                  <option value="Purchase">Purchase</option>
+                  <option value="Refinance">Refinance</option>
+                  <option value="Renewal">Renewal</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="price">Property price</label>
+                <input id="price" type="number" min="0" step="1000" placeholder="e.g. 500000" required />
+              </div>
+              <div class="field">
+                <label for="down">Down payment</label>
+                <input id="down" type="number" min="0" step="1000" placeholder="e.g. 100000" required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">See my options</button>
+            <small style="display:block;color:#b9c6ff">By continuing, you agree to our friendly terms and privacy.</small>
+          </form>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 6px">Today’s snapshot</h3>
+        <p class="sub" style="margin:0 0 16px">Illustrative — confirm with your advisor</p>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+          <div class="metric"><div class="sub">5‑yr Fixed</div><div class="val">5.34% APR</div></div>
+          <div class="metric"><div class="sub">5‑yr Variable</div><div class="val">5.10% APR</div></div>
+          <div class="metric"><div class="sub">Best Cash‑back</div><div class="val">$3,000</div></div>
+          <div class="metric"><div class="sub">Pre‑approval</div><div class="val">24–48 hrs</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <section class="trust">
+    <div class="container row">
+      <span class="badge">🔒 Bank‑grade security</span>
+      <span class="badge">⭐ 4.9/5 client rating</span>
+      <span class="badge">🏦 40+ lending partners</span>
+      <span class="badge">🕒 Same‑day callbacks</span>
+    </div>
+  </section>
+
+  <!-- Rates / Highlights -->
+  <section id="rates" class="section">
+    <div class="container">
+      <h2>Competitive options for every goal</h2>
+      <p class="lead">Whether you’re buying your first home or renewing, we’ll help you choose a smart path forward.</p>
+      <div class="cards">
+        <article class="card">
+          <h3>First‑time Buyer</h3>
+          <div class="rate">From 5.19%</div>
+          <p class="sub">Flexible terms and low down‑payment programs.</p>
+          <a class="btn" href="#contact">Talk to an advisor →</a>
+        </article>
+        <article class="card">
+          <h3>Refinance & Cash‑out</h3>
+          <div class="rate">From 5.29%</div>
+          <p class="sub">Consolidate debt or fund renovations with confidence.</p>
+          <a class="btn" href="#contact">Explore options →</a>
+        </article>
+        <article class="card">
+          <h3>Renewals</h3>
+          <div class="rate">From 5.09%</div>
+          <p class="sub">Avoid posted rates. We negotiate on your behalf.</p>
+          <a class="btn" href="#contact">Check my renewal →</a>
+        </article>
+
+        <!-- Calculator -->
+        <article id="calculator" class="card calc">
+          <h3>Quick mortgage calculator</h3>
+          <p class="sub">Estimate your monthly payment. This is a guide, not an offer.</p>
+          <div class="grid">
+            <div class="field">
+              <label for="amount">Loan amount</label>
+              <input id="amount" type="number" min="0" step="1000" placeholder="400000" />
+            </div>
+            <div class="field">
+              <label for="rate">Interest rate (APR %)</label>
+              <input id="rate" type="number" min="0" step="0.01" placeholder="5.25" />
+            </div>
+            <div class="field">
+              <label for="term">Term (years)</label>
+              <input id="term" type="number" min="1" step="1" placeholder="25" />
+            </div>
+            <div class="field">
+              <label for="freq">Payment frequency</label>
+              <select id="freq">
+                <option value="12">Monthly</option>
+                <option value="24">Semi‑Monthly</option>
+                <option value="26">Bi‑Weekly</option>
+                <option value="52">Weekly</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="calcBtn" type="button">Calculate</button>
+          <div class="calc-output">
+            <div class="metric"><div class="sub">Payment</div><div class="val" id="outPayment">—</div></div>
+            <div class="metric"><div class="sub">Total Interest</div><div class="val" id="outInterest">—</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Self‑Employed</h3>
+          <p class="sub">Alternative documentation and income programs available.</p>
+          <a class="btn" href="#contact">Learn more →</a>
+        </article>
+        <article class="card">
+          <h3>New to Country</h3>
+          <p class="sub">Build credit while accessing newcomer‑friendly options.</p>
+          <a class="btn" href="#contact">Start here →</a>
+        </article>
+        <article class="card">
+          <h3>Investment Properties</h3>
+          <p class="sub">Smart financing for long‑term returns and cash flow.</p>
+          <a class="btn" href="#contact">See programs →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section" style="padding-top:0">
+    <div class="container grid" style="grid-template-columns:1.2fr .8fr">
+      <div class="grid" style="align-content:start">
+        <h2>Advisors who work for you</h2>
+        <p class="lead">We compare lenders, explain your options in plain language, and support you from pre‑approval to closing.</p>
+
+        <div class="service">
+          <div class="icon">A</div>
+          <div>
+            <strong>Personalized strategy</strong>
+            <p class="sub">No one‑size‑fits‑all quotes. We tailor plans to your goals.</p>
+          </div>
+        </div>
+        <div class="service">
+          <div class="icon">B</div>
+          <div>
+            <strong>Transparent guidance</strong>
+            <p class="sub">Clear breakdown of rates, penalties, and true cost.</p>
+          </div>
+        </div>
+        <div class="service">
+          <div class="icon">C</div>
+          <div>
+            <strong>End‑to‑end support</strong>
+            <p class="sub">From paperwork to possession day—we’re in your corner.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid" style="gap:12px">
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>“They secured a lower rate than my bank and explained every step. Stress‑free experience.”</p>
+          <small>— Priya S.</small>
+        </div>
+        <div class="testimonial">
+          <div class="stars">★★★★★</div>
+          <p>“Super fast pre‑approval and honest advice. Highly recommend.”</p>
+          <small>— Daniel K.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <h2>Common questions</h2>
+        <p class="lead">Short answers to help you move forward with confidence.</p>
+        <details>
+          <summary>How much can I afford?</summary>
+          <p>Your maximum depends on income, debts, down payment, and stress‑test rules. Start with a pre‑approval to set a clear budget.</p>
+        </details>
+        <details>
+          <summary>Fixed vs variable—what’s better?</summary>
+          <p>Fixed offers payment certainty. Variable can save over time but may fluctuate. We’ll model both so you decide with clarity.</p>
+        </details>
+        <details>
+          <summary>Do pre‑approvals affect my credit?</summary>
+          <p>We can begin with a soft check. A full approval requires a hard inquiry later in the process.</p>
+        </details>
+      </div>
+      <div>
+        <h2 id="contact">Speak with an advisor</h2>
+        <p class="lead">Tell us a bit about your goals and a licensed advisor will reach out.</p>
+        <form class="grid" style="grid-template-columns:1fr 1fr" onsubmit="event.preventDefault(); alert('Thanks! We will be in touch shortly.'); this.reset();">
+          <div class="field"><label for="name">Full name</label><input id="name" required placeholder="Jane Doe"></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" required placeholder="(555) 555‑5555"></div>
+          <div class="field" style="grid-column:span 2"><label for="msg">Your message</label><input id="msg" placeholder="Share your timeline or questions"></div>
+          <button class="btn btn-primary" style="grid-column:span 2" type="submit">Request a callback</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot-grid">
+      <div>
+        <div class="brand" style="color:#e7ecff"><div class="brand-logo">🏠</div> HFM Mortgages</div>
+        <p style="color:#9fb0ff">Independent mortgage advice. Serving homebuyers, investors, and families across the region.</p>
+      </div>
+      <div>
+        <strong>Company</strong>
+        <ul style="list-style:none;padding:0;margin:8px 0 0;color:#c9d3ff">
+          <li><a href="#" aria-label="About">About</a></li>
+          <li><a href="#" aria-label="Careers">Careers</a></li>
+          <li><a href="#" aria-label="Licensing">Licensing</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Resources</strong>
+        <ul style="list-style:none;padding:0;margin:8px 0 0;color:#c9d3ff">
+          <li><a href="#" aria-label="Learning center">Learning center</a></li>
+          <li><a href="#" aria-label="Rate trends">Rate trends</a></li>
+          <li><a href="#" aria-label="Glossary">Glossary</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Get in touch</strong>
+        <ul style="list-style:none;padding:0;margin:8px 0 0;color:#c9d3ff">
+          <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+          <li><a href="tel:+10000000000">+1 (000) 000‑0000</a></li>
+          <li>Mon–Fri 9am–6pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container copyright">
+      <small>© <span id="year"></span> HFM Mortgages. All rights reserved. Rates for demonstration only.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Prequal: demo handling
+    document.getElementById('prequal').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Thanks! We\'ll email a personalized list of options.');
+      this.reset();
+    });
+
+    // Mortgage calculator (amortization)
+    function formatCurrency(x){
+      if(!isFinite(x)) return '—';
+      return x.toLocaleString(undefined,{style:'currency',currency:'USD'});
+    }
+    document.getElementById('calcBtn').addEventListener('click', function(){
+      const P = parseFloat(document.getElementById('amount').value||0);
+      const r = (parseFloat(document.getElementById('rate').value||0)/100);
+      const years = parseInt(document.getElementById('term').value||0,10);
+      const freq = parseInt(document.getElementById('freq').value||12,10);
+      if(P<=0||r<=0||years<=0){
+        document.getElementById('outPayment').textContent='—';
+        document.getElementById('outInterest').textContent='—';
+        return;
+      }
+      const i = r/freq;              // periodic interest
+      const n = years*freq;          // total periods
+      const payment = P * (i*Math.pow(1+i,n)) / (Math.pow(1+i,n)-1);
+      const totalPaid = payment*n;
+      const totalInterest = totalPaid - P;
+      document.getElementById('outPayment').textContent = formatCurrency(payment);
+      document.getElementById('outInterest').textContent = formatCurrency(totalInterest);
+    });
+  </script>
+</body>
+</html>
